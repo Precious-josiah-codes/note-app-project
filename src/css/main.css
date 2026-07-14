@@ -1,0 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=Rethink+Sans:ital,wght@0,400..800;1,400..800&display=swap');
+ 
+ 
+ * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: "Rethink Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+      }
+
+      body {
+        font-family:
+          system-ui,
+          -apple-system,
+          sans-serif;
+        height: 100vh;
+        overflow: hidden;  
+      }
+
+ 
+      .grid-container {
+        display: grid;
+        grid-template-columns: 100px 1fr; 
+        height: 100vh;
+   
+      }
+
+    
+      .content-area {
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        overflow: hidden;
+      }
+
+ 
+      .header {
+        background-color: #ffffff;
+        padding-top: 20px;
+        padding-bottom: 20px;
+        padding-right: 60px;
+        padding-left: 60px;
+        flex-shrink: 0; 
+      }
+
+      .header input {
+        border: 0;
+        outline: 0;
+        font-size: 18px;
+      }
+       
+      
+      .main-content {
+        flex: 1;  
+        overflow-y: auto;  
+        padding-top: 50px;
+        padding-bottom: 20px;
+        padding-right: 60px;
+        padding-left: 60px;
+        background-color: #ffffff;
+      }
