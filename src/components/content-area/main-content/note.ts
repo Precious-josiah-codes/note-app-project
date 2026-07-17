@@ -15,7 +15,7 @@ function starredButton(): string {
 export function note(note: Note): string {
   const { color, date, id, starred, text } = note;
   return `
-            <div class="card" style="background-color: ${color}">
+            <div data-id="${id}" class="card" style="background-color: ${color}">
               ${starred ? starredButton() : ""}
 
               <div class="content-container">
@@ -29,7 +29,7 @@ ${text}</textarea
               </div>
 
               <div class="card-footer">
-                <span class="card-date">May 25, 2020</span>
+                <span class="card-date">${date}</span>
                 <button class="icon-btn edit-btn" aria-label="Edit">
                   <svg viewBox="0 0 24 24" fill="currentColor">
                     <path
