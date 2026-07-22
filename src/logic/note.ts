@@ -67,6 +67,8 @@ let notesData: Note[] = [
   },
 ];
 
+let activePopover: HTMLElement | null = null;
+
 export function addNote(color: Note["color"], noteContainerEl: HTMLDivElement) {
   const id = crypto.randomUUID();
   const date = new Date();
@@ -98,4 +100,87 @@ export function renderNote(
   const notes = notesParam ? notesParam : notesData;
 
   noteContainerEl.innerHTML = `${notes.map((noteData) => note(noteData)).join("")}`;
+}
+
+function openPopover(popoverEl: HTMLElement): void {
+  if (activePopover !== popoverEl) {
+    closeActivePopover();
+  }
+
+  popoverEl.classList.add("is-open");
+  activePopover = popoverEl;
+}
+
+function closeActivePopover(): void {
+  if (!activePopover) return;
+
+  activePopover.classList.remove("is-open");
+  activePopover = null;
+}
+
+function handleStarNote(card: HTMLElement, noteContainerEl: HTMLDivElement) {
+  const cardId = card.dataset.id;
+
+  const updatedNote = notesData.map((note) =>
+    note.id === cardId ? { ...note, starred: true } : note,
+  );
+
+  renderNote(noteContainerEl, updatedNote);
+
+  notesData = updatedNote;
+}
+
+export function handleNoteLogic(
+  event: MouseEvent,
+  noteContainerEl: HTMLDivElement,
+) {
+  const target = event.target as HTMLElement | null;
+
+  if (!target) return;
+
+  const optionBtn = target.closest<HTMLButtonElement>(".icon-btn.edit-btn");
+  const popoverItem = target.closest<HTMLButtonElement>(".popover-item");
+
+  // open and close popover item
+  if (optionBtn) {
+    const wrapper = optionBtn.closest<HTMLElement>(".popover-wrapper");
+    const popover = wrapper.querySelector<HTMLElement>(".popover");
+
+    if (popover) {
+      if (popover.classList.contains("is-open")) {
+      } else {
+        openPopover(popover);
+      }
+    }
+
+    return;
+  }
+
+  // select the action in the popover item
+  if (popoverItem) {
+    const action = popoverItem.dataset.action;
+    const card = popoverItem.closest<HTMLElement>(".card");
+
+    if (card && action) {
+      switch (action) {
+        case "star":
+          handleStarNote(card, noteContainerEl);
+          break;
+        case "share":
+          console.log("share the note");
+          break;
+        case "delete":
+          console.log("delete the note");
+          break;
+
+        default:
+          break;
+      }
+    }
+  }
+
+  // close the popover if open, when click anywhere else
+  if (activePopover) {
+    closeActivePopover();
+  }
 }
